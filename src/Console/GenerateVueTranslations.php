@@ -85,7 +85,7 @@ class GenerateVueTranslations extends Command
         return Collection::make($paths)
             ->flatMap(fn ($path) => $this->findTranslationFiles($path))
             ->groupBy(fn ($paths) => $this->getTranslationLanguage($paths))
-            ->map(fn(Collection $files) => $files->flatMap(fn ($file) => $this->readTranslationFile($file)))
+            ->map(fn (Collection $files) => $files->flatMap(fn ($file) => $this->readTranslationFile($file)))
             ->map(fn ($content) => $this->convertTranslations($content))
             ->all();
     }
