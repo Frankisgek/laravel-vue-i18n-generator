@@ -3,20 +3,15 @@
 namespace TestMonitor\VueI18nGenerator\Tests;
 
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Foundation\Application;
 use TestMonitor\VueI18nGenerator\VueI18nGeneratorServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     /**
      * Define environment setup.
      *
-     * @param \Illuminate\Foundation\Application $app
-     *
+     * @param Application $app
      * @return void
      */
     protected function getEnvironmentSetUp($app)

@@ -2,9 +2,9 @@
 
 namespace TestMonitor\VueI18nGenerator\Console;
 
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class GenerateVueTranslations extends Command
 {
@@ -26,15 +26,11 @@ class GenerateVueTranslations extends Command
 
     /**
      * Laravel source language path.
-     *
-     * @var string
      */
     protected string $languagePath;
 
     /**
      * Vue-i18n output file path.
-     *
-     * @var string
      */
     protected string $outputFile;
 
@@ -83,29 +79,19 @@ class GenerateVueTranslations extends Command
 
     /**
      * Parse all translation files into a collection.
-     *
-     * @param array $paths
-     *
-     * @return array
      */
     public function getTranslations(array $paths): array
     {
         return Collection::make($paths)
             ->flatMap(fn ($path) => $this->findTranslationFiles($path))
             ->groupBy(fn ($paths) => $this->getTranslationLanguage($paths))
-            ->map(function (Collection $files) {
-                return $files->flatMap(fn ($file) => $this->readTranslationFile($file));
-            })
+            ->map(fn(Collection $files) => $files->flatMap(fn ($file) => $this->readTranslationFile($file)))
             ->map(fn ($content) => $this->convertTranslations($content))
             ->all();
     }
 
     /**
      * Scan the provided path for Laravel JSON and PHP files.
-     *
-     * @param string $path
-     *
-     * @return array|false
      */
     protected function findTranslationFiles(string $path): array|false
     {
@@ -114,10 +100,6 @@ class GenerateVueTranslations extends Command
 
     /**
      * Get the translation key based on the provided filename.
-     *
-     * @param string $filename
-     *
-     * @return string
      */
     public function getTranslationLanguage(string $filename): string
     {
@@ -130,7 +112,6 @@ class GenerateVueTranslations extends Command
     /**
      * Read a JSON or PHP file and parse it into an array.
      *
-     * @param string $filename
      *
      * @return array<string,string>
      */
@@ -138,14 +119,13 @@ class GenerateVueTranslations extends Command
     {
         return match (pathinfo($filename, PATHINFO_EXTENSION)) {
             'json' => json_decode(file_get_contents($filename), true),
-            'php' => [basename($filename, '.php') => include($filename)],
+            'php' => [basename($filename, '.php') => include ($filename)],
         };
     }
 
     /**
      * Convert translations into the Vue-i18n format.
      *
-     * @param \Illuminate\Support\Collection $lines
      *
      * @return array<string,string|array>
      */
@@ -162,7 +142,6 @@ class GenerateVueTranslations extends Command
      * Converts a single translation line.
      *
      * @param string $content
-     *
      * @return string
      */
     protected function convertTranslation(string|array $content): string|array
@@ -171,7 +150,7 @@ class GenerateVueTranslations extends Command
         if (is_array($content)) {
             return array_combine(
                 array_keys($content),
-                array_map(fn ($value) => $this->convertTranslation($value), $content)
+                array_map($this->convertTranslation(...), $content)
             );
         }
 
@@ -184,10 +163,6 @@ class GenerateVueTranslations extends Command
 
     /**
      * Remove escape characters.
-     *
-     * @param string $line
-     *
-     * @return string
      */
     protected function removeEscapeCharacter(string $line): string
     {
@@ -200,10 +175,6 @@ class GenerateVueTranslations extends Command
 
     /**
      * Turn Laravel style ":link" into vue-i18n style "{link}".
-     *
-     * @param string $line
-     *
-     * @return string
      */
     protected function transformCollonsToBraces(string $line): string
     {
@@ -216,10 +187,6 @@ class GenerateVueTranslations extends Command
 
     /**
      * Convert Laravel into Vue18n pluralization style.
-     *
-     * @param string $line
-     *
-     * @return string
      */
     protected function transformPluralization(string $line): string
     {
@@ -233,10 +200,7 @@ class GenerateVueTranslations extends Command
     /**
      * Writes translations to a JSON file.
      *
-     * @param string $filename
      * @param array<string,array> $translations
-     *
-     * @return int|false
      */
     protected function generateVue18nFile(string $filename, array $translations): int|false
     {
@@ -250,8 +214,6 @@ class GenerateVueTranslations extends Command
      * Convert translation array to Vue-i18n JSON file.
      *
      * @param array<string,array> $translations
-     *
-     * @return string
      */
     protected function convertTranslationsToVue18n(array $translations): string
     {

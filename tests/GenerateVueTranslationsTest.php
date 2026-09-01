@@ -2,19 +2,19 @@
 
 namespace TestMonitor\VueI18nGenerator\Tests;
 
-use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Support\Facades\Artisan;
+use PHPUnit\Framework\Attributes\Test;
 
-class GenerateVueTranslationsTest extends TestCase
+final class GenerateVueTranslationsTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->cleanUp();
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         parent::tearDown();
 
