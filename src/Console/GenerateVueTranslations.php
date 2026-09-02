@@ -118,7 +118,7 @@ class GenerateVueTranslations extends Command
     {
         return match (pathinfo($filename, PATHINFO_EXTENSION)) {
             'json' => json_decode(file_get_contents($filename), true),
-            'php' => [basename($filename, '.php') => include ($filename)],
+            'php' => [basename($filename, '.php') => include $filename],
         };
     }
 
