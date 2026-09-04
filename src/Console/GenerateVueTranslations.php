@@ -140,7 +140,6 @@ class GenerateVueTranslations extends Command
      * Converts a single translation line.
      *
      * @param string $content
-     * @return string
      */
     protected function convertTranslation(string|array $content): string|array
     {
