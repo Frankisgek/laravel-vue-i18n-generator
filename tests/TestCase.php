@@ -7,18 +7,6 @@ use TestMonitor\VueI18nGenerator\VueI18nGeneratorServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
-    /**
-     * Define environment setup.
-     *
-     * @param \Illuminate\Foundation\Application $app
-     *
-     * @return void
-     */
     protected function getEnvironmentSetUp($app)
     {
         tap($app->make('config'), function (Repository $config) {
